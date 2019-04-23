@@ -1,0 +1,32 @@
+noexcept
+~~~~~~~~
+	The noexcept operator performs a compile time check that returns true if an expression is declared to not throw any exceptions.
+
+It is used in two different ways:
+	1. As specifier.
+	2. As operator.
+Note:
+	It simply test if a function noexcept specification evaluates to true or false at compile time.
+
+specifier:
+~~~~~~~~~~
+	It means the function marked with keyword noexcept must not throw exception. It throws exception, then program crashes.
+
+	syntax:
+		noexcept(const boolean expression)
+		here,
+			const boolean expression -> compile time expression
+			noexcept(const boolean expression) is equivalent to noexcept(true)
+			
+Operator:
+~~~~~~~~~
+	It returns a operator dunction throws exception or not.
+	
+	syntax:
+		noexcept (const expression)
+		here,
+			const expression -> compile time expression	
+Note:
+	Mostly noexcept is used when c++ function is used in c language.
+
+
