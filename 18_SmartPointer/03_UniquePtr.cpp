@@ -39,9 +39,9 @@ int MyClass::count = 0;
 
 int main () 
 {
-   auto_ptr<MyClass> ptr1( new MyClass() );
-   auto_ptr<MyClass> ptr2( new MyClass() );
-	///*
+   unique_ptr<MyClass> ptr1( new MyClass() );
+   unique_ptr<MyClass> ptr2( new MyClass() );
+//	/*
     ptr1->sayHello();
     ptr2->sayHello();
 
@@ -50,14 +50,14 @@ int main ()
     //2. MyClass Object 2 will be destructed as ptr2 has given up its 
     //   ownership on Object 2
     //3. Ownership of Object 1 will be transferred to ptr2
-    ptr2 = ptr1;
+    ptr2 = move(ptr1);
 
     //The line below if uncommented will result in core dump as ptr1 
     //has given up its ownership on Object 1 and the ownership of 
     //Object 1 is transferred to ptr2.
-    //ptr1->sayHello();
+	//    ptr1->sayHello();
 
     ptr2->sayHello();
-	//*/
+//	*/
    return 0;
 }
