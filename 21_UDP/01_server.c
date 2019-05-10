@@ -19,13 +19,21 @@ int main()
 {
       int fd,listenfd;
       fd=0;
+	// FileDescriptor = socket(domain, type, protocol);
+	/*
+		domain -> AF_INET for ipv4 and AF_INET6 for ipv6
+		type   -> It denotes the UDP(SOCK_DGRAM) ot TCP (SOCK_STREAM)
+		protocol -> 0 for internet protocol 
+	*/
       listenfd=socket(AF_INET,SOCK_DGRAM,IPPROTO_UDP);
 
       struct sockaddr_in serveraddr,clientaddr;
       serveraddr.sin_family=AF_INET;
       serveraddr.sin_port=htons(5555);
-      inet_aton("192.168.66.91",&serveraddr.sin_addr.s_addr);
-
+      //inet_aton("192.168.66.91",&serveraddr.sin_addr.s_addr);
+      serveraddr.sin_addr.s_addr=htonl(INADDR_ANY); 
+      // bind call has to be made after the socket call
+      // listenfd is socket file descriptor     
       bind(listenfd,&serveraddr,sizeof(serveraddr));
 
       socklen_t len;
@@ -45,7 +53,7 @@ int main()
 		//
              select(maxfd,&reset,0,0,0);
              //Reason to have two file descriptor is that the flow gets blocked 
-	     //Thats y we have 2 seperate fd for msg from the client to server & server to client 
+	     //because of the read call in both client and server
 	     if(FD_ISSET(listenfd,&reset))
              {
                    char recvbuf[100]={0};
@@ -53,11 +61,18 @@ int main()
                    write(1,recvbuf,n);
              }
              if(FD_ISSET(fd,&reset))
-             {//How is data being read without scanf?
+             {		//How is data being read without scanf?
+			/*
+			  	Note fd = 0 -> input
+				     fd = 1 -> output 
+				     fd = 2 -> error
+				Here the fd is zero hence its getting the input from the user
+				w/o the use of the scanf
+			*/
                     char sendbuf[100]={0};
-                    int n=read(fd,sendbuf,100);
+		    int n=read(fd,sendbuf,100);
+		    //sendto(fileDescriptor, Buffer, Lrngth of data read by read(), FLAG, struct socket,  );
                     sendto(listenfd,sendbuf,n,MSG_CONFIRM,&clientaddr,sizeof(clientaddr));
              }
-
      }
 }
