@@ -1,0 +1,6 @@
+1. call the socket.
+2. Fill the sockaddr structure.
+3. Perform bind system call.
+4. Infinite loop, 
+	> Set the file descriptor to zero
+ 	  

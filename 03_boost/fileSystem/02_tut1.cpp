@@ -12,8 +12,8 @@ int main(int argc, char* argv[])
 
   path p(argv[1]);  // avoid repeated path construction below
 
-  //if (exists(p))    // does path p actually exist?
-  //{
+  if (exists(p))    // does path p actually exist?
+  {
     if (is_regular_file(p))        // is path p a regular file?
       std::cout << p << " size is " << file_size(p) << '\n';
 
@@ -22,9 +22,9 @@ int main(int argc, char* argv[])
 
     else
       std::cout << p << " exists, but is not a regular file or directory\n";
-  /*}
+  }
   else
-    cout << p << " does not exist\n";
-  */
+    std::cout << p << " does not exist\n";
+  
   return 0;
 }
